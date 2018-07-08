@@ -35,16 +35,17 @@ gg_pca_9char <- ggbiplot(tab.pca, obs.scale = 1, var.scale = 1,
 gg_pca_9char <- gg_pca_9char + scale_color_discrete(name = '')
 gg_pca_9char <- gg_pca_9char + theme(legend.direction = 'horizontal', 
                legend.position = 'top')
-print(ggg_pca_9char)
+
+print(gg_pca_9char)
 
 ## plot of PCA with labels
-ggg_pca_9char_labs <- gg_pca_9char
-ggg_pca_9char_labs <- ggg_pca_9char_labs + theme(legend.position = 'none')
-ggg_pca_9char_labs <- ggg_pca_9char_labs + geom_label_repel(aes(label = tab.origin, colour = tab.origin),
+gg_pca_9char_labs <- gg_pca_9char
+gg_pca_9char_labs <- gg_pca_9char_labs + theme(legend.position = 'none')
+gg_pca_9char_labs <- gg_pca_9char_labs + geom_label_repel(aes(label = tab.origin, colour = tab.origin),
                  box.padding   = 0.35, 
                  point.padding = 0.5)
 
-print(ggg_pca_9char_labs)
+print(gg_pca_9char_labs)
 
 ##### PCA 7 characteristics          
 tab_df2 <- tab_df[,c(1:11)]
@@ -57,13 +58,14 @@ print(tab.pca2)
 plot(tab.pca2, type = "l")
 summary(tab.pca2)
 
-ggg_pca_7char <- ggbiplot(tab.pca2, obs.scale = 1, var.scale = 1, 
+gg_pca_7char <- ggbiplot(tab.pca2, obs.scale = 1, var.scale = 1, 
               groups = tab.origin2, ellipse = TRUE, 
               circle = TRUE)
 gg_pca_7char <- gg_pca_7char + scale_color_discrete(name = '')
 gg_pca_7char <- gg_pca_7char + theme(legend.direction = 'horizontal', 
                legend.position = 'top')
-print(g_2)
+
+print(gg_pca_7char)
 
 gg_pca_7char_labs <- gg_pca_7char
 gg_pca_7char_labs <- gg_pca_7char_labs + theme(legend.position = 'none')
@@ -71,7 +73,7 @@ gg_pca_7char_labs <- gg_pca_7char_labs + geom_label_repel(aes(label = tab.origin
                             box.padding   = 0.35, 
                             point.padding = 0.5)
 
-print(g2_2)
+print(gg_pca_7char_labs)
 
 # plot each variables coefficients inside a unit circle (9 chars)
 
