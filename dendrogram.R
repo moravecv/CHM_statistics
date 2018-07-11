@@ -3,11 +3,17 @@ library(ggdendro)
 library(ape)
 library(dendextend)
 
-############################ Dendrogram ########################################
+######################### Dendrogram with measured data ########################
 
-tab <- readRDS("tab_chm_num.rds")
-rownames(tab) <- make.names(tab[,1], unique = T)
-tab[,c(1:4, 16, 18, 20, 21)] <-  NULL
+tab_na <- readRDS("tab_chm_num.rds")
+########################## wattle.front.1 ######################################
+tab <- tab_na[,c(5:15,17,19,22)] # select columns having numbers
+tab <- as.matrix(tab)
+########################## wattle.front.1.2 ######################################
+#tab <- tab_na[,c(5:15,17,20,22)] # select columns having numbers
+################################################################################
+
+rownames(tab) <- make.names(names = unlist(tab_na[,1]), unique = T)
 
 # Basic dendrogram plot
 dist_mat <- dist(x = tab, method = "euclidean")
@@ -23,7 +29,7 @@ plot(as.phylo(clust), type = "unrooted", cex = 0.6,
 
 # ggplot function
 
-gg_dend <- function(method_dist, method_hclust){
+gg_dend <- function(tab, method_dist, method_hclust){
   dend <- tab %>% scale %>% dist(method = method_dist) %>% 
     hclust(method = method_hclust) %>% as.dendrogram %>%
     set("branches_k_color", k = 7) %>%
@@ -61,4 +67,13 @@ gg_dend <- function(method_dist, method_hclust){
     theme_grey()
 }
 
-gg_dend(method_dist = "euclidean", method_hclust = "ward.D")
+gg_dend(tab = tab, method_dist = "euclidean", method_hclust = "ward.D")
+
+######################### Dendrogram with PCA data #############################
+
+# source of data: pca_non_na.R
+
+tt <- as.matrix(tab.pca_mean$x)
+rownames(tt) <- make.names(names = unlist(tab_na[,1]), unique = T)
+
+gg_dend(tab = tt[,c(1:7)], method_dist = "manhattan", method_hclust = "ward.D2")
