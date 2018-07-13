@@ -1,7 +1,13 @@
 library(candisc)
 
+# tab NA
 tab <- readRDS("tab_chm_num.rds")
+# tab non NA (MEAN method fill) based on pca_non_na.R
 tab <- readRDS("tab_chm_num_non_na.rds")
+# tab non NA (Joint modeling method fill) based on pca_non_na.R
+tab <- res_amelia
+# tab non NA (Iterative method fill) based on pca_non_na.R
+tab <- res_comp
 
 ############################### Canonical Function ##############################
 
