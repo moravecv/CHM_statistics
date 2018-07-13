@@ -12,7 +12,10 @@ name_col <- c()
 
 ##### Oneway.tes excluding Nias == only one observation
 
-for (i in colnames(tab)[c(5:14,17,19,22)]){
+# tab_chm_num.rds
+cols <- colnames(tab)[c(5:14,17,19,22)]
+
+for (i in cols){ 
   test <- oneway.test(get(i) ~ origin, data = tab[2:40,], var.equal = T, na.action = na.omit)
   st <- test$statistic
   st_col <- append(st_col, st)
