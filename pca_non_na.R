@@ -138,16 +138,16 @@ tab.origin <- unlist(tab_na[, 1]) # column for labeling
 apply(tab_na, 2, function(x) sum(is.na(x)))
 tab_na <- tab_na[,c(5:15,17,19,20,22)]
 nb <- estim_ncpPCA(tab_na, ncp.min = 0, ncp.max=5)
-res.comp <- imputePCA(tab_na, ncp=2)
-res.comp <- data.frame(res.comp$completeObs)
+res_comp <- imputePCA(tab_na, ncp=2)
+res_comp <- data.frame(res_comp$completeObs)
 
 ###### PCA
-res.comp[res.comp == 0] <- 0.000000001 # replace 0 
+res_comp[res.comp == 0] <- 0.000000001 # replace 0 
 
 ########################## wattle.front.1 ######################################
-log.tab_iter <- log(res.comp[,c(1:13,15)]) # select columns having numbers
+log.tab_iter <- log(res_comp[,c(1:13,15)]) # select columns having numbers
 ########################## wattle.front.1.2 ####################################
-#log.tab_iter <- log(res.comp[,c(1:12,14,15)]) # select columns having numbers
+#log.tab_iter <- log(res_comp[,c(1:12,14,15)]) # select columns having numbers
 ################################################################################
 
 tab.pca_iter <- prcomp(log.tab_iter, center = TRUE, scale = TRUE) # PCA
