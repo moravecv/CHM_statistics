@@ -1,6 +1,23 @@
 library(stats)
 
+##################################### NA #######################################
 tab <- readRDS("tab_chm_num.rds")
+
+cols <- colnames(tab)[c(5:14,17)]
+################################### Non NA #####################################
+### MEAN
+tab <- tab_non_na ## based on pca_non_na.R
+cols <- colnames(tab)[c(5:15)]
+### Amelia
+tab <- res_amelia ## based on pca_non_na.R
+cols <- colnames(tab)[c(2:12)]
+### Iter
+tab <- res_comp ## based on pca_non_na.R
+tab <- data.frame(origin = tab.origin, tab) ## based on pca_non_na.R
+cols <- colnames(tab)[c(2:12)]
+
+
+################################################################################
 
 ######################## Tests of Equality of Group Means ######################
 
@@ -10,10 +27,7 @@ par_col2 <- c()
 p_v_col <- c()
 name_col <- c()
 
-##### Oneway.tes excluding Nias == only one observation
-
-# tab_chm_num.rds
-cols <- colnames(tab)[c(5:14,17,19,22)]
+##### Oneway.test excluding Nias == only one observation
 
 for (i in cols){ 
   test <- oneway.test(get(i) ~ origin, data = tab[2:40,], var.equal = T, na.action = na.omit)
