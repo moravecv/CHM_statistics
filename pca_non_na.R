@@ -50,7 +50,7 @@ tab_non_na$wattle.front.1 <- NULL # categorical
 tab_non_na$wattle.front.1.2. <- NULL # categorical
 tab_non_na$wattle.front.2 <- NULL # categorical
 
-tab_non_na$wing <- as.numeric(tab_non_na$wing)
+tab_non_na$wing <- as.numeric(tab_non_na$wing)  ######### TAB FOR OTHER SCRIPTS ####
 
 # control of NAs
 apply(tab_non_na, 2, function(x) sum(is.na(x)))
@@ -59,13 +59,14 @@ apply(tab_non_na, 2, function(x) sum(is.na(x)))
 tab_non_na$new.origin <- NA
 tab_non_na$new.origin[which(tab_non_na$origin == "Sumatra")] <- "Sumatra"
 tab_non_na$new.origin[which(tab_non_na$origin != "Sumatra")] <- "Islands"
-tab_non_na$new.origin <- as.factor(tab_non_na$new.origin)
+tab_non_na$new.origin <- as.factor(tab_non_na$new.origin) ######### TAB FOR OTHER SCRIPTS ####
 ##### !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 ###### PCA
 tab_non_na[,c(5:15)] <- tab_non_na[,c(5:15)] + 0.000000001 # replace 0
+log.tab_mean <- log(tab_non_na[,c(5:15)])
 ########################## wattle.front.1 ######################################
-log.tab_mean <- log(tab_non_na[,c(5:15)]) # select columns having numbers
+#log.tab_mean <- log(tab_non_na[,c(5:17,19)]) # select columns having numbers
 ########################## wattle.front.1.2 ####################################
 #log.tab_mean <- log(tab_non_na[,c(5:16,18:19)]) # select columns having numbers
 ################################################################################
@@ -144,16 +145,17 @@ res_amelia <- (amelia_out$imputations$imp1 + amelia_out$imputations$imp2 +
                  amelia_out$imputations$imp3 + amelia_out$imputations$imp4 + 
                  amelia_out$imputations$imp5) / 5
 
-res_amelia$origin <- tab_na$origin
+res_amelia$origin <- tab_na$origin          ######### TAB FOR OTHER SCRIPTS ####
 #### !!!!!!!!!!!!!!!!!!!!! If two groups wanted - else skip !!!!!!!!!!!!!!!!!!!!
-res_amelia$new.origin <- tab_na$new.origin
+res_amelia$new.origin <- tab_na$new.origin  ######### TAB FOR OTHER SCRIPTS ####
 ##### !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 ###### PCA
 res_amelia[,c(2:12)] <- res_amelia[,c(2:12)] + 0.000000001 # replace 0 
 
+log.tab_amelia <- log(res_amelia[,c(2:12)])
 ########################## wattle.front.1 ######################################
-log.tab_amelia <- log(res_amelia[,c(2:12)]) # select columns having numbers
+#log.tab_amelia <- log(res_amelia[,c(2:14,16)]) # select columns having numbers
 ########################## wattle.front.1.2 ####################################
 #log.tab_amelia <- log(res_amelia[,c(2:13,15,16)]) # select columns having numbers
 ################################################################################
@@ -215,13 +217,14 @@ tab_na <- tab_na[,c(5:15)]
 
 nb <- estim_ncpPCA(tab_na, ncp.min = 0, ncp.max=5)
 res_comp <- imputePCA(tab_na, ncp = nb$ncp)
-res_comp <- data.frame(res_comp$completeObs)
+res_comp <- data.frame(res_comp$completeObs)  ######### TAB FOR OTHER SCRIPTS ####
 
 ###### PCA
 res_comp <- res_comp + 0.000000001 # replace 0 
 
+log.tab_iter <- log(res_comp)
 ########################## wattle.front.1 ######################################
-log.tab_iter <- log(res_comp) # select columns having numbers
+#log.tab_iter <- log(res_comp[,c(1:13,15)]) # select columns having numbers
 ########################## wattle.front.1.2 ####################################
 #log.tab_iter <- log(res_comp[,c(1:12,14,15)]) # select columns having numbers
 ################################################################################
