@@ -5,15 +5,35 @@ library(dendextend)
 
 ######################### Dendrogram with measured data ########################
 
-tab_na <- readRDS("tab_chm_num.rds")
-########################## wattle.front.1 ######################################
-tab <- tab_na[,c(5:15,17,19,22)] # select columns having numbers
-tab <- as.matrix(tab)
-########################## wattle.front.1.2 ######################################
-#tab <- tab_na[,c(5:15,17,20,22)] # select columns having numbers
+##################################### NA #######################################
+tab_r <- readRDS("tab_chm_num.rds")
+tab <- as.matrix(tab_r[,c(5:15,17)])
+rownames(tab) <- make.names(names = unlist(tab_r[,1]), unique = T)
+################################### Non NA #####################################
+### MEAN
+tab_r <- tab_non_na ## based on pca_non_na.R
+tab <- as.matrix(tab_r[,c(5:15)])
+rownames(tab) <- make.names(names = unlist(tab_r[,1]), unique = T)
+### Amelia
+tab_r <- res_amelia ## based on pca_non_na.R
+tab <- as.matrix(tab_r[,c(2:12)])
+rownames(tab) <- make.names(names = unlist(tab_r[,1]), unique = T)
+### Iter
+tab_r <- res_comp ## based on pca_non_na.R
+tab_r <- data.frame(origin = tab.origin, tab_r)
+tab <- as.matrix(tab_r[,c(2:12)])
+rownames(tab) <- make.names(names = unlist(tab_r[,1]), unique = T)
 ################################################################################
 
-rownames(tab) <- make.names(names = unlist(tab_na[,1]), unique = T)
+########################## wattle.front.1 ######################################
+#tab <- tab_na[,c(5:15,17,19,22)] # select columns having numbers
+#tab <- as.matrix(tab)
+########################## wattle.front.1.2 ######################################
+#tab <- tab_na[,c(5:15,17,20,22)] # select columns having numbers
+#tab <- as.matrix(tab)
+################################################################################
+
+#rownames(tab) <- make.names(names = unlist(tab_na[,1]), unique = T)
 
 # Basic dendrogram plot
 dist_mat <- dist(x = tab, method = "euclidean")
@@ -72,8 +92,13 @@ gg_dend(tab = tab, method_dist = "euclidean", method_hclust = "ward.D")
 ######################### Dendrogram with PCA data #############################
 
 # source of data: pca_non_na.R
-
+### MEAN
 tt <- as.matrix(tab.pca_mean$x)
+### Amelia
+tt <- as.matrix(tab.pca_amelia$x)
+### Iter
+tt <- as.matrix(tab.pca_iter$x)
+
 rownames(tt) <- make.names(names = unlist(tab_na[,1]), unique = T)
 
 gg_dend(tab = tt[,c(1:7)], method_dist = "manhattan", method_hclust = "ward.D2")
