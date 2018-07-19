@@ -6,12 +6,23 @@ library(ggplot2)
 library(devtools)
 library(reshape2)
 library(data.table)
-devtools::install_github("kassambara/ggcorrplot")
+#devtools::install_github("kassambara/ggcorrplot")
 library(ggcorrplot)
 
-tab_non_na
-mat <- as.matrix(cbind(tab_non_na[,c(5:15)]))
+################################### Non NA #####################################
+### MEAN
+tab <- tab_non_na ## based on pca_non_na.R
+mat <- as.matrix(tab[,c(5:15)])
 origin <- tab_non_na$origin
+### Amelia
+tab <- res_amelia ## based on pca_non_na.R
+mat <- as.matrix(tab[,c(2:12)])
+origin <- res_amelia$origin
+### Iter
+tab <- res_comp ## based on pca_non_na.R
+tab <- data.frame(origin = tab.origin, tab) ## based on pca_non_na.R
+mat <- as.matrix(tab[,c(2:12)])
+origin <- tab$origin
 
 ############################### CORPLOT ########################################
 
@@ -80,7 +91,7 @@ colnames(dta_fin) <- c("diff", "lwr", "Difference", "p.adj", "name", "relationsh
 dta_fin$diff_round <- round(dta_fin$diff, digits = 1)
 
 dta_fin <- data.table(dta_fin)
-dta_fin2 <- dta_fin[, sum(upr), by = relationship]
+dta_fin2 <- dta_fin[, sum(Difference), by = relationship]
 
 loc <- strsplit(dta_fin2$relationship, "-")
 loc <- data.frame(do.call(rbind, loc))
