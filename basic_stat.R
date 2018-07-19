@@ -2,9 +2,25 @@ library(data.table)
 library(reshape2)
 library(ggplot2)
 
+##################################### NA #######################################
 tab <- readRDS("tab_chm_num.rds")
+#scale_tab <- scale(tab[,c(5:15,17,19,20,22)]) 
+scale_tab <- scale(tab[,c(5:15,17)])
 
-scale_tab <- scale(tab[,c(5:15,17,19,20,22)])
+################################### Non NA #####################################
+### MEAN
+tab <- tab_non_na ## based on pca_non_na.R
+scale_tab <- scale(tab[,c(5:15)])
+### Amelia
+tab <- res_amelia ## based on pca_non_na.R
+scale_tab <- scale(tab[,c(2:12)])
+### Iter
+tab <- res_comp ## based on pca_non_na.R
+tab <- data.frame(origin = tab.origin, tab) ## based on pca_non_na.R
+scale_tab <- scale(tab[,c(2:12)])
+
+################################################################################
+
 dta <- data.frame(origin = tab$origin, individual = make.names(tab$origin, unique = T), scale_tab)
 
 tab_reshape <- data.table(melt(data = dta, id = c("origin", "individual")))
