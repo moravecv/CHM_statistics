@@ -4,15 +4,28 @@ library(magrittr)
 
 ############################## Cluster #########################################
 
-tab <- readRDS("tab_chm_num_non_na.rds")
-rownames(tab) <- make.names(tab[,1], unique = T)
-tab[,c(1:4,18)] <-  NULL
-
+################################### Non NA #####################################
+### MEAN
+tab <- tab_non_na ## based on pca_non_na.R
+tab <- as.matrix(tab[,c(5:15)])
+rownames(tab) <- make.names(names = unlist(tab_non_na[,1]), unique = T)
 x <- scale(tab)
+### Amelia
+tab <- res_amelia ## based on pca_non_na.R
+tab <- as.matrix(tab[,c(2:12)])
+rownames(tab) <- make.names(names = unlist(res_amelia[,1]), unique = T)
+x <- scale(tab)
+### Iter
+tab <- res_comp ## based on pca_non_na.R
+tab <- data.frame(origin = tab.origin, tab)
+tab2 <- as.matrix(tab[,c(2:12)])
+rownames(tab2) <- make.names(names = unlist(tab[,1]), unique = T)
+x <- scale(tab2)
+################################################################################
 
 clust <- kmeans(x = as.data.frame(x), centers = 7, iter.max = 100, nstart = 50)
 clust$iter
-plot(clust)
+clust$cluster
 
 # Distance
 res.dist <- get_dist(x, stand = TRUE, method = "pearson")
